@@ -1,0 +1,20 @@
+{
+  "name": "rest ui",
+  "homepage": "https://github.com/evgenyZERTO/zRestClient",
+  "authors": [
+    "evgeny.rivkin <evgeny.rivkin@zerto.com>"
+  ],
+  "description": "rest ui",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "axios": "^0.15.3"
+  }
+}
