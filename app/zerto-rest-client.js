@@ -50,6 +50,7 @@ exports.getAllVpgs = (zvmip, zvmport, sessionid) =>
 
     return instance.get('/v1/vpgs', {AuthenticationMethod: 1})
     .then((successResult) => {
+        console.log(JSON.stringify(successResult.data));
         return successResult.data;
     }, (error) => {
         console.log(error);

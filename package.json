@@ -23,6 +23,9 @@
   "homepage": "https://github.com/evgenyZERTO/zRestClient#readme",
   "dependencies": {
     "axios": "^0.15.3",
-    "express": "^4.14.0"
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "node-uuid": "^1.4.7",
+    "uuid": "^3.0.1"
   }
 }
