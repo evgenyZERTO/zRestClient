@@ -6,19 +6,27 @@ var axios = require('axios');
 var ipToSession = {};
 
 exports.authenticate = (authenticationParams) => {
+    let res = {};
 
-    var res = {};
+    let apFuncs = authenticationParams.map(ap => auth(ap.ip, ap.port, ap.username, ap.password));
 
-    return axios.all(function(ap)
-        {
-            zRestClient.auth(ap.ip, ap.port, ap.username, ap.password)
+    return axios.all(apFuncs)
+        .then((results) => {
+            let i;
+            for (i = 0; i < results.length; i++)
+            {
+                res[authenticationParams[i].ip] = results[i];
+            }
+        })
+}
+
+auth = (ip, port, username, password) => {
+    return zRestClient.auth(ip, port, username, password)
                         .then(function(session) {
-                            ipToSession[ap.ip] = session;
-                            res[ap.ip] = true;
+                            ipToSession[ip] = session;
+                            return true;
                         })
                         .catch(function (error) {
-                            res[ap.ip] = false;
-                        }); 
-        })
-        .then(() => {return res;})
+                            return false;
+                        });
 }
