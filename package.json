@@ -1,0 +1,27 @@
+{
+  "name": "zrestclient",
+  "version": "1.0.0",
+  "description": "rest client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evgenyZERTO/zRestClient.git"
+  },
+  "keywords": [
+    "rest",
+    "zerto",
+    "orchestrator"
+  ],
+  "author": "Evgeny, Idan, Inbal and Omer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/evgenyZERTO/zRestClient/issues"
+  },
+  "homepage": "https://github.com/evgenyZERTO/zRestClient#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
