@@ -13,10 +13,7 @@ app.use('/api', router);
 
 router.route('/auth')
     .post(function(req, res) {
-        axios.get(restUi.authenticate(req.query.authParams)).then(function()
-        {
-            console.log("end");
-        })
+        restUi.authenticate(req.query.authParams).then((result) => {res.json(result)});
     })
 
 app.get('/api/test', (req, res) => {

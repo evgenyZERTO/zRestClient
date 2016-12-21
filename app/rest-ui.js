@@ -8,6 +8,7 @@ var ipToSession = {};
 exports.authenticate = (authenticationParams) => {
     let res = {};
 
+var a = authenticationParams[0];
     let apFuncs = authenticationParams.map(ap => auth(ap.ip, ap.port, ap.username, ap.password));
 
     return axios.all(apFuncs)
@@ -17,7 +18,6 @@ exports.authenticate = (authenticationParams) => {
             {
                 res[authenticationParams[i].ip] = results[i];
             }
-            console.log(JSON.stringify(res));
             return res;
         })
 }
