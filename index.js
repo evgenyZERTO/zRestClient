@@ -5,8 +5,17 @@ var zClient = require('./app/zerto-rest-client');
 
 var express = require('express');
 var app = express();
+var router = express.Router();
+var restUi = require('./app/rest-ui')
 
 app.use(express.static('ui'));
+app.use('/api', router);
+
+router.route('/auth')
+    .post(function(req, res) {
+        restUi.authenticate(req.query.authParams)
+        console.log("end");
+    })
 
 app.get('/api/test', (req, res) => {
     zClient.auth('127.0.0.1', '9669', 'administrator', 'zertodata').then(function(session) 
