@@ -9,10 +9,23 @@ var app = express();
 app.use(express.static('ui'));
 
 app.get('/api/test', (req, res) => {
-    console.log(JSON.stringify(req.query));
-    res.send(JSON.stringify(req.query));
-    
-    zClient.auth('127.0.0.1', '9669', 'administrator', 'zertodata').then(function(session) {console.log('YAYYY'+session);})
+    zClient.auth('127.0.0.1', '9669', 'administrator', 'zertodata').then(function(session) 
+    {
+        zClient.getAllVpgs('127.0.0.1', '9669', session).then(function(res) 
+        {
+            var vpg = res[0];
+            console.log("Work on Vpg: " + vpg.VpgName + ".");
+            zClient.getAllCheckpoints('127.0.0.1', '9669', session, vpg.VpgIdentifier).then(function(res) 
+            {
+                var cp = res[0];
+                //zClient.failovertest('127.0.0.1', '9669', cp.CheckpointIdentifier).then(function(res) 
+                //{
+                  //  console.log("SUCCESS");
+                //})
+            })
+        })
+    })
+    ;
     
 });
 

@@ -22,17 +22,74 @@ exports.auth = (zvmip, zvmport, username, password) =>
     }, (error) => {
         console.log(error);
         return error;
-    }).catch(function (error) {
-        console.log(error);
     });
 }
 
-exports.logout =  (zvmip, zvmport, sessionid) => {
-    Axios.delete('https://' + zvmip + '/' + zvmport + '/v1/session', 
-                {headers: {'x-zerto-session': sessionid}})
+exports.logout =  (zvmip, zvmport, sessionid) => 
+{
+    var instance = Axios.create({
+                        baseURL: 'https://' + zvmip + ':' + zvmport,
+                        headers: {'x-zerto-session': sessionid}}
+                        );
+
+    return instance.delete('/v1/session', {AuthenticationMethod: 1})
     .then((successResult) => {
         console.log('Logged out - by deleting the session');
     }, (error) => {
+        console.log(error);
         return error;
     });
 };
+
+exports.getAllVpgs = (zvmip, zvmport, sessionid) =>
+{
+    var instance = Axios.create({
+                        baseURL: 'https://' + zvmip + ':' + zvmport,
+                        headers: {'x-zerto-session': sessionid}}
+                        );
+
+    return instance.get('/v1/vpgs', {AuthenticationMethod: 1})
+    .then((successResult) => {
+        return successResult.data;
+    }, (error) => {
+        console.log(error);
+        return error;
+    });
+}
+
+exports.getAllCheckpoints = (zvmip, zvmport, sessionid, vpgId) =>
+{
+    var instance = Axios.create({
+                        baseURL: 'https://' + zvmip + ':' + zvmport,
+                        headers: {'x-zerto-session': sessionid}}
+                        );
+
+    return instance.get('vpgs/' + vpgId + '/checkpoints')
+    .then((successResult) => {
+        return successResult.data;
+    }, (error) => {
+        console.log(error);
+        return error;
+    });
+}
+
+exports.failovertest = (zvmip, zvmport, sessionid, vpgId, cpId) =>
+{
+    var instance = Axios.create({
+                        baseURL: 'https://' + zvmip + ':' + zvmport,
+                        headers: {'x-zerto-session': sessionid}}
+                        );
+
+    return instance.get('vpgs/' + vpgId + '/failovertest',
+                        {AuthenticationMethod: 1,
+                         CheckpointId: cpId})
+    .then((successResult) => {
+        return successResult.data;
+    }, (error) => {
+        console.log(error);
+        return error;
+    });
+
+    
+}
+    
