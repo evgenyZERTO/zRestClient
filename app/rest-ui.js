@@ -1,16 +1,24 @@
 /**
  * Created by evgeny.rivkin on 21/12/2016.
  */
-var restServer = require('./rest-server.js');
+var zRestClient = require('./zerto-rest-client.js');
+var axios = require('axios');
+var ipToSession = {};
 
 exports.authenticate = (authenticationParams) => {
 
     var res = {};
 
-    authenticationParams.forEach(function(ap)
-    {
-        //console.log(JSON.stringify(ap));
-
-        restServer.auth(ap.ip, ap.port, ap.username, ap.password);
-    });
+    return axios.all(function(ap)
+        {
+            zRestClient.auth(ap.ip, ap.port, ap.username, ap.password)
+                        .then(function(session) {
+                            ipToSession[ap.ip] = session;
+                            res[ap.ip] = true;
+                        })
+                        .catch(function (error) {
+                            res[ap.ip] = false;
+                        }); 
+        })
+        .then(() => {return res;})
 }
