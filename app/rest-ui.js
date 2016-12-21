@@ -1,19 +1,16 @@
 /**
  * Created by evgeny.rivkin on 21/12/2016.
  */
-var restServer = require('rest-server');
-
-exports.authenticate = (ip, port, username, password) => {
-    return restServer.authenticate(ip, port, username, password);
-}
+var restServer = require('./rest-server.js');
 
 exports.authenticate = (authenticationParams) => {
-    var tokensArray = [];
+
+    var res = {};
 
     authenticationParams.forEach(function(ap)
     {
-        console.log(JSON.stringify(ap));
+        //console.log(JSON.stringify(ap));
 
-        authenticate(ap.ip, ap.port, ap.username, ap.password);
+        restServer.auth(ap.ip, ap.port, ap.username, ap.password);
     });
 }
