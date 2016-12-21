@@ -17,6 +17,8 @@ exports.authenticate = (authenticationParams) => {
             {
                 res[authenticationParams[i].ip] = results[i];
             }
+            console.log(JSON.stringify(res));
+            return res;
         })
 }
 

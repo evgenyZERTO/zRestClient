@@ -2,7 +2,7 @@
  * Created by evgeny.rivkin on 21/12/2016.
  */
 var zClient = require('./app/zerto-rest-client');
-
+var axios = require('axios');
 var express = require('express');
 var app = express();
 var router = express.Router();
@@ -13,18 +13,20 @@ app.use('/api', router);
 
 router.route('/auth')
     .post(function(req, res) {
-        restUi.authenticate(req.query.authParams)
-        console.log("end");
+        axios.get(restUi.authenticate(req.query.authParams)).then(function()
+        {
+            console.log("end");
+        })
     })
 
 app.get('/api/test', (req, res) => {
-    zClient.auth('127.0.0.1', '9669', 'administrator', 'zertodata').then(function(session) 
+    zClient.auth('172.20.133.234', '9669', 'administrator', 'zertodata').then(function(session) 
     {
-        zClient.getAllVpgs('127.0.0.1', '9669', session).then(function(res) 
+        zClient.getAllVpgs('172.20.133.234', '9669', session).then(function(res) 
         {
             var vpg = res[0];
             console.log("Work on Vpg: " + vpg.VpgName + ".");
-            zClient.getAllCheckpoints('127.0.0.1', '9669', session, vpg.VpgIdentifier).then(function(res) 
+            zClient.getAllCheckpoints('172.20.133.234', '9669', session, vpg.VpgIdentifier).then(function(res) 
             {
                 var cp = res[0];
                 //zClient.failovertest('127.0.0.1', '9669', cp.CheckpointIdentifier).then(function(res) 
