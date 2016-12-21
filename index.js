@@ -2,6 +2,7 @@
  * Created by evgeny.rivkin on 21/12/2016.
  */
 var express = require('express');
+var core = require('core');
 var app = express();
 
 app.use(express.static('ui'));

@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/evgenyZERTO/zRestClient#readme",
   "dependencies": {
+    "axios": "^0.15.3",
     "express": "^4.14.0"
   }
 }
