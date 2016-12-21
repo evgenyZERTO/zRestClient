@@ -13,8 +13,7 @@ app.use('/api', router);
 
 router.route('/auth')
     .post(function(req, res) {
-        restUi.authenticate(req.query.authParams)
-        console.log("end");
+        restUi.authenticate(req.query.authParams).then((result) => {res.json(result)});
     })
 
 
