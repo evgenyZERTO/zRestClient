@@ -93,4 +93,57 @@ exports.failovertest = (zvmip, zvmport, sessionid, vpgId, cpId) =>
 
     
 }
+
+exports.installVra = (zvmip, zvmport, sessionid) =>
+{
+    var instance = Axios.create({
+                        baseURL: 'https://' + zvmip + ':' + zvmport,
+                        headers: {'x-zerto-session': sessionid}}
+                        );
+
+    return instance.post('v1/vras',{AuthenticationMethod: 1})
+    .then((successResult) => {
+        return successResult.data;
+    }, (error) => {
+        console.log(error);
+        return error;
+    });
+
+    
+}
+
+exports.upgradeVra = (zvmip, zvmport, vraId, sessionid) =>
+{
+    var instance = Axios.create({
+                        baseURL: 'https://' + zvmip + ':' + zvmport,
+                        headers: {'x-zerto-session': sessionid}}
+                        );
+
+    return instance.post('v1/vras/' + vraId + '/upgrade' ,{AuthenticationMethod: 1})
+    .then((successResult) => {
+        return successResult.data;
+    }, (error) => {
+        console.log(error);
+        return error;
+    });
+
+    
+}
+
+exports.getAllVras = (zvmip, zvmport, sessionid) =>
+{
+    var instance = Axios.create({
+                        baseURL: 'https://' + zvmip + ':' + zvmport,
+                        headers: {'x-zerto-session': sessionid}}
+                        );
+
+    return instance.get('/v1/vras', {AuthenticationMethod: 1})
+    .then((successResult) => {
+        console.log(JSON.stringify(successResult.data));
+        return successResult.data;
+    }, (error) => {
+        console.log(error);
+        return error;
+    });
+}
     

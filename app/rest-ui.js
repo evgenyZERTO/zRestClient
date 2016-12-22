@@ -45,7 +45,7 @@ auth = (ip, port, username, password) => {
 }
 
 exports.getAllVpgs = (siteIds) => {
-    if (siteIds instanceof Array) 
+    if (Array.isArray(siteIds)) 
     {
         let siFuncs = siteIds.map(si => {
             if (si in uuidToSite) {
@@ -60,15 +60,98 @@ exports.getAllVpgs = (siteIds) => {
     }
     else
     {
-        return getSiteVpgs(uuidToSite[siteIds].Ip, uuidToSite[siteIds].Port, uuidToSite[siteIds].Session)
-            .then((result) => { 
-                return result;
-            });
+        if (uuidToSite[siteIds]) {
+            return getSiteVpgs(uuidToSite[siteIds].Ip, uuidToSite[siteIds].Port, uuidToSite[siteIds].Session)
+                .then((result) => { 
+                    return result;
+                });
+        }
     }
 }
 
 getSiteVpgs = (ip, port, session) => {
     return zRestClient.getAllVpgs(ip, port, session)
+        .then((vpgs) => {
+            return vpgs;
+        })
+        .catch(error => {
+            return null;
+        });
+}
+
+exports.installVras = (siteParams) => {
+    let spFuncs = siteParams.map(sp => {
+        if (sp.id in uuidToSite) {
+            return installVra(uuidToSite[sp.id].Ip, uuidToSite[sp.id].Port, uuidToSite[sp.id].Session);
+        }
+    });
+    
+    return axios.all(spFuncs)
+        .then((results) => {
+            return results;
+        })
+}
+
+installVra = (ip, port, session) => {
+    return zRestClient.installVra(ip, port, session)
+                        .then(function(vraId) {
+                            return vraId;
+                        })
+                        .catch(function (error) {
+                            return null;
+                        });
+}
+
+exports.upgradeVras = (siteParams) => {
+    let spFuncs = siteParams.map(sp => {
+        if (sp.id in uuidToSite) {
+            return upgradeVra(uuidToSite[sp.id].Ip, uuidToSite[sp.id].Port, sp.vraId, uuidToSite[sp.id].Session);
+        }
+    });
+    
+    return axios.all(spFuncs)
+        .then((results) => {
+            return results;
+        })
+}
+
+upgradeVra = (ip, port, vraId, session) => {
+    return zRestClient.upgradeVra(ip, port, vraId, session)
+                        .then(function(result) {
+                            return result;
+                        })
+                        .catch(function (error) {
+                            return null;
+                        });
+}
+
+exports.getAllVras = (siteIds) => {
+    if (Array.isArray(siteIds)) 
+    {
+        let siFuncs = siteIds.map(si => {
+            if (si in uuidToSite) {
+                return getSiteVra(uuidToSite[si].Ip, uuidToSite[si].Port, uuidToSite[si].Session);
+            }
+        });
+        
+        return axios.all(siFuncs)
+            .then((results) => {
+                return results;
+            })
+    }
+    else
+    {
+        if (uuidToSite[siteIds]) {
+            return getSiteVra(uuidToSite[siteIds].Ip, uuidToSite[siteIds].Port, uuidToSite[siteIds].Session)
+                .then((result) => { 
+                    return result;
+                });
+        }
+    }
+}
+
+getSiteVra = (ip, port, session) => {
+    return zRestClient.getAllVras(ip, port, session)
         .then((vpgs) => {
             return vpgs;
         })

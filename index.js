@@ -18,11 +18,25 @@ router.route('/auth')
         restUi.authenticate(req.body).then((result) => {res.json(result)});
     });
 
-router.route('/ops/get_all_vpgs')
+router.route('/get_all_vpgs')
     .get(function(req, res) {
         restUi.getAllVpgs(req.query.sites).then((result) => {res.json(result)});
     });
 
+router.route('/install_vras')
+    .post(function(req, res) {
+        restUi.installVras(req.body).then((result) => {res.json(result)});
+    });
+
+router.route('/upgrade_vras')
+    .post(function(req, res) {
+        restUi.upgradeVras(req.body).then((result) => {res.json(result)});
+    });
+
+router.route('/get_all_vras')
+    .get(function(req, res) {
+        restUi.getAllVras(req.query.sites).then((result) => {res.json(result)});
+    });
 
 /*
 app.get('/api/test', (req, res) => {
