@@ -65,7 +65,7 @@ exports.getAllCheckpoints = (zvmip, zvmport, sessionid, vpgId) =>
                         headers: {'x-zerto-session': sessionid}}
                         );
 
-    return instance.get('vpgs/' + vpgId + '/checkpoints')
+    return instance.get('/v1/vpgs/' + vpgId + '/checkpoints')
     .then((successResult) => {
         return successResult.data;
     }, (error) => {
@@ -81,7 +81,7 @@ exports.failovertest = (zvmip, zvmport, sessionid, vpgId, cpId) =>
                         headers: {'x-zerto-session': sessionid}}
                         );
 
-    return instance.get('vpgs/' + vpgId + '/failovertest',
+    return instance.post('/v1/vpgs/' + vpgId + '/failovertest',
                         {AuthenticationMethod: 1,
                          CheckpointId: cpId})
     .then((successResult) => {
@@ -138,6 +138,23 @@ exports.getAllVras = (zvmip, zvmport, sessionid) =>
                         );
 
     return instance.get('/v1/vras', {AuthenticationMethod: 1})
+    .then((successResult) => {
+        console.log(JSON.stringify(successResult.data));
+        return successResult.data;
+    }, (error) => {
+        console.log(error);
+        return error;
+    });
+}
+
+exports.getSiteInfo = (zvmip, zvmport, sessionid) =>
+{
+    var instance = Axios.create({
+                        baseURL: 'https://' + zvmip + ':' + zvmport,
+                        headers: {'x-zerto-session': sessionid}}
+                        );
+
+    return instance.get('/v1/localsite', {AuthenticationMethod: 1})
     .then((successResult) => {
         console.log(JSON.stringify(successResult.data));
         return successResult.data;

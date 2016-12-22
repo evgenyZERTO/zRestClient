@@ -38,6 +38,15 @@ router.route('/get_all_vras')
         restUi.getAllVras(req.query.sites).then((result) => {res.json(result)});
     });
 
+router.route('/get_all_checkpoints')
+    .get(function(req, res) {
+        restUi.getAllCheckpoints(req.query.sites).then((result) => {res.json(result)});
+    });
+
+router.route('/failover_test')
+    .post(function(req, res) {
+        restUi.failoverTest(req.body).then((result) => {res.json(result)});
+    });
 /*
 app.get('/api/test', (req, res) => {
     zClient.auth('172.20.133.234', '9669', 'administrator', 'zertodata').then(function(session) 
