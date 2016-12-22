@@ -103,9 +103,13 @@ installVra = (ip, port, session) => {
 }
 
 exports.upgradeVras = (siteParams) => {
-    let spFuncs = siteParams.map(sp => {
+    let spFuncs = []
+
+    siteParams.forEach(sp => {
         if (sp.id in uuidToSite) {
-            return upgradeVra(uuidToSite[sp.id].Ip, uuidToSite[sp.id].Port, sp.vraId, uuidToSite[sp.id].Session);
+            sp.vraIds.forEach(function(vraId) {
+                spFuncs.push(upgradeVra(uuidToSite[sp.id].Ip, uuidToSite[sp.id].Port, vraId, uuidToSite[sp.id].Session));
+            })
         }
     });
     
